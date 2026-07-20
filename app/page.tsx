@@ -14,10 +14,12 @@ import { PricingPreview } from "@/components/home/PricingPreview";
 import { ProofBand } from "@/components/home/ProofBand";
 import { Reasons } from "@/components/home/Reasons";
 import { getGoogleReviews } from "@/lib/google-reviews";
+import { getInstagramPosts } from "@/lib/instagram";
 import { CLUB_MEMBERS } from "@/lib/site";
 
 export default async function HomePage() {
-  const reviews = await getGoogleReviews();
+  // Deux appels indépendants : les paralléliser évite d'additionner les latences.
+  const [reviews, posts] = await Promise.all([getGoogleReviews(), getInstagramPosts()]);
 
   return (
     <div className="wrap">
@@ -31,7 +33,7 @@ export default async function HomePage() {
       <PricingPreview />
       <Coaches />
       <Gym />
-      <InstagramFeed />
+      <InstagramFeed posts={posts} />
       <FinalCta />
       <Footer />
       <WhatsappFab />

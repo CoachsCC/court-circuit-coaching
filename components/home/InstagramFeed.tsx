@@ -1,12 +1,29 @@
 import Image from "next/image";
-import { instagramFeed, site } from "@/lib/site";
+import type { InstagramPost } from "@/lib/instagram";
+import { site } from "@/lib/site";
+
+function VideoBadge() {
+  return (
+    <svg
+      className="absolute top-1.5 right-1.5 drop-shadow"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="#fff"
+      aria-hidden="true"
+    >
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
+}
 
 /**
- * TODO(integration): the six thumbnails are static placeholders — feed them from
- * the Instagram Basic Display API (or a light self-hosted widget). Never an
- * embed iframe.
+ * Grille 3×2 des derniers posts. La section entière disparaît si l'API ne
+ * répond pas : mieux vaut pas de section qu'une grille vide ou figée.
  */
-export function InstagramFeed() {
+export function InstagramFeed({ posts }: { posts: InstagramPost[] }) {
+  if (!posts.length) return null;
+
   return (
     <section
       className="pad pt-11 pb-3"
@@ -32,10 +49,24 @@ export function InstagramFeed() {
         </a>
       </div>
       <div className="grid auto-rows-fr grid-cols-3 gap-1.5">
-        {instagramFeed.map((src, i) => (
-          <div key={i} className="relative aspect-square overflow-hidden">
-            <Image src={src} alt="" fill sizes="180px" className="object-cover" />
-          </div>
+        {posts.map((post) => (
+          <a
+            key={post.id}
+            href={post.permalink}
+            target="_blank"
+            rel="noopener"
+            className="relative aspect-square overflow-hidden"
+          >
+            <Image
+              src={post.imageUrl}
+              alt={post.caption ? post.caption.slice(0, 120) : "Publication Instagram"}
+              fill
+              sizes="180px"
+              className="object-cover"
+              unoptimized
+            />
+            {post.isVideo && <VideoBadge />}
+          </a>
         ))}
       </div>
     </section>

@@ -29,16 +29,7 @@ export const routes = {
 /** Chiffre interne au club, sans rapport avec l'API Google. */
 export const CLUB_MEMBERS = 250;
 
-/**
- * Placeholder thumbnails. TODO(integration): replace with the latest posts from
- * the Instagram Basic Display API (or a light self-hosted widget). Never an
- * embed iframe — too heavy for a mobile-first page.
- */
-export const instagramFeed = [
-  "/assets/gym-boxes.jpg",
-  "/assets/gym-rig.jpg",
-  "/assets/gym-wide.jpg",
-  "/assets/gym-rig.jpg",
-  "/assets/gym-wide.jpg",
-  "/assets/gym-boxes.jpg",
-] as const;
+// Les vignettes Instagram statiques ont été retirées : le feed vient désormais
+// de l'API (lib/instagram.ts), et la section se masque si l'appel échoue.
+// Réafficher trois photos de la salle en boucle laisserait croire à un compte
+// actif alors que rien n'est branché.

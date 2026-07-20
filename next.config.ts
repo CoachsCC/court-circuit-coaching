@@ -48,6 +48,9 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       // Photos de profil des auteurs d'avis Google.
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
+      // Médias Instagram — les sous-domaines du CDN varient (scontent-cdg4-1…).
+      { protocol: "https", hostname: "**.cdninstagram.com" },
+      { protocol: "https", hostname: "**.fbcdn.net" },
     ],
   },
   async redirects() {
