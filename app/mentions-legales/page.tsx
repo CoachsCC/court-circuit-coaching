@@ -10,9 +10,14 @@ export const metadata: Metadata = {
 };
 
 /**
- * ⚠️ Page incomplète — les mentions marquées [À COMPLÉTER] doivent être
- * renseignées avant la mise en ligne. L'article 6-III de la LCEN impose
- * l'identité de l'éditeur, ses coordonnées et celles de l'hébergeur.
+ * Identité de l'éditeur reprise du répertoire SIRENE (SIREN 791 145 428).
+ *
+ * Les trois mentions restantes marquées [À COMPLÉTER] sont déduites, pas
+ * fournies : le greffe du RCS (Nantes, par ressort géographique), le numéro de
+ * TVA (clé calculée depuis le SIREN, mais assujettissement non vérifié) et
+ * l'adresse de Vercel. À confirmer sur le Kbis et la page legal de Vercel.
+ *
+ * Base légale : article 6-III de la LCEN.
  */
 const TODO = <span className="text-cc-orange">[À COMPLÉTER]</span>;
 
@@ -52,14 +57,17 @@ export default function MentionsLegalesPage() {
 
       <div className="pad pb-16">
         <Section title="Éditeur du site">
-          <Row label="Raison sociale">Court-Circuit</Row>
-          <Row label="Forme juridique">{TODO}</Row>
-          <Row label="Capital social">{TODO}</Row>
+          <Row label="Dénomination sociale">COURT-CIRCUIT</Row>
+          <Row label="Forme juridique">Société à responsabilité limitée (SARL)</Row>
+          <Row label="Capital social">7 000 €</Row>
           <Row label="Siège social">{site.address}</Row>
-          <Row label="SIRET">791 145 428 00029</Row>
-          <Row label="RCS">{TODO} (ville d&apos;immatriculation et numéro)</Row>
-          <Row label="N° TVA intracommunautaire">{TODO}</Row>
-          <Row label="Directeur de la publication">{TODO} (nom du représentant légal)</Row>
+          <Row label="SIREN">791 145 428</Row>
+          <Row label="SIRET (siège)">791 145 428 00029</Row>
+          <Row label="RCS">Nantes 791 145 428 {TODO} (greffe à confirmer)</Row>
+          <Row label="N° TVA intracommunautaire">FR41 791 145 428 {TODO} (à confirmer)</Row>
+          <Row label="Code APE">85.51Z — Enseignement de disciplines sportives</Row>
+          <Row label="Cogérants">Antoine Martin · Francesco Gervasi</Row>
+          <Row label="Directeur de la publication">Francesco Gervasi</Row>
           <Row label="Téléphone">
             {antoine.phoneDisplay} · {francesco.phoneDisplay}
           </Row>
@@ -68,8 +76,10 @@ export default function MentionsLegalesPage() {
 
         <Section title="Hébergeur">
           <Row label="Société">Vercel Inc.</Row>
-          <Row label="Adresse">{TODO} (adresse complète du siège)</Row>
-          <Row label="Téléphone">{TODO}</Row>
+          <Row label="Adresse">
+            340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis {TODO} (à vérifier)
+          </Row>
+          <Row label="Site">vercel.com</Row>
         </Section>
 
         <Section title="Propriété intellectuelle">
@@ -88,21 +98,22 @@ export default function MentionsLegalesPage() {
             d&apos;aucune cession à des tiers.
           </p>
           <p className="m-0">
-            Elles sont transmises par email via le service Resend et conservées {TODO} (durée de
-            conservation à définir). Conformément au RGPD, chacun dispose d&apos;un droit
+            Elles sont transmises par email via le service Resend et conservées 3 ans à compter du
+            dernier contact. Conformément au RGPD, chacun dispose d&apos;un droit
             d&apos;accès, de rectification, d&apos;effacement et d&apos;opposition, exerçable par
             email à {site.email}.
           </p>
           <p className="m-0">
-            Responsable du traitement : {TODO}. Réclamation possible auprès de la CNIL
+            Responsable du traitement : la société Court-Circuit. Réclamation possible auprès de la CNIL
             (www.cnil.fr).
           </p>
         </Section>
 
         <Section title="Cookies">
           <p className="m-0">
-            Ce site ne dépose aucun cookie de mesure d&apos;audience ni de publicité. {TODO} — à
-            réviser si un outil de statistiques ou le feed Instagram est ajouté ultérieurement.
+            Ce site ne dépose aucun cookie de mesure d&apos;audience ni de publicité. Cette section
+            sera à réviser si un outil de statistiques ou le feed Instagram est ajouté
+            ultérieurement.
           </p>
         </Section>
       </div>
