@@ -16,8 +16,14 @@ export type ReviewsData = {
   rating: string;
   reviewCount: number;
   reviews: Review[];
-  /** `google` = données fraîches, `fallback` = valeurs figées de secours. */
-  source: "google" | "fallback";
+  /**
+   * `google`   — note, total et avis viennent de l'API.
+   * `partial`  — note et total réels, mais avis indisponibles (SKU Atmosphere
+   *              non provisionné) : on garde les vrais chiffres et on retombe
+   *              sur les témoignages statiques.
+   * `fallback` — rien n'a pu être récupéré.
+   */
+  source: "google" | "partial" | "fallback";
 };
 
 /**
@@ -109,12 +115,20 @@ export async function getGoogleReviews(): Promise<ReviewsData> {
 
     const data: PlacesResponse = await response.json();
 
-    if (typeof data.rating !== "number" || !data.reviews?.length) {
-      console.error("[google-reviews] Réponse sans note ni avis — repli.", data);
+    if (typeof data.rating !== "number") {
+      console.error("[google-reviews] Réponse sans note — repli complet.", data);
       return FALLBACK;
     }
 
-    const reviews: Review[] = data.reviews
+    // Note et total sont exploitables même si les avis manquent : ne pas jeter
+    // de la donnée fraîche parce qu'une partie de la réponse est vide.
+    const stats = {
+      // Google renvoie 4.9 ; la France écrit 4,9.
+      rating: data.rating.toFixed(1).replace(".", ","),
+      reviewCount: data.userRatingCount ?? FALLBACK.reviewCount,
+    };
+
+    const reviews: Review[] = (data.reviews ?? [])
       .filter((r) => (r.text?.text ?? r.originalText?.text)?.trim())
       .map((r) => ({
         quote: `« ${(r.text?.text ?? r.originalText?.text ?? "").trim()} »`,
@@ -125,15 +139,16 @@ export async function getGoogleReviews(): Promise<ReviewsData> {
         publishedAgo: r.relativePublishTimeDescription ?? "",
       }));
 
-    if (!reviews.length) return FALLBACK;
+    if (!reviews.length) {
+      console.warn(
+        "[google-reviews] Note et total récupérés, mais aucun avis renvoyé. " +
+          "Le champ `reviews` relève du SKU Enterprise + Atmosphere : vérifier " +
+          "la facturation du projet Google Cloud et les restrictions de la clé.",
+      );
+      return { ...stats, reviews: FALLBACK.reviews, source: "partial" };
+    }
 
-    return {
-      // Google renvoie 4.9 ; la France écrit 4,9.
-      rating: data.rating.toFixed(1).replace(".", ","),
-      reviewCount: data.userRatingCount ?? FALLBACK.reviewCount,
-      reviews,
-      source: "google",
-    };
+    return { ...stats, reviews, source: "google" };
   } catch (err) {
     console.error("[google-reviews] Appel impossible — repli.", err);
     return FALLBACK;
