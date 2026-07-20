@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { googleReviews, routes, site } from "@/lib/site";
+import { routes, site } from "@/lib/site";
+
+/** Chiffres de réassurance, fournis par le serveur (avis Google + effectif). */
+export type TrialStats = { rating: string; reviewCount: number; members: number };
 
 const SLOTS = [
   { value: "Matin", label: "Matin" },
@@ -28,10 +31,10 @@ const ICON = {
   "aria-hidden": true,
 } as const;
 
-function Reassurance() {
+function Reassurance({ rating, reviewCount, members }: TrialStats) {
   const items = [
     {
-      text: `${googleReviews.members} adhérents`,
+      text: `${members} adhérents`,
       icon: (
         <svg {...ICON}>
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -42,7 +45,7 @@ function Reassurance() {
       ),
     },
     {
-      text: `${googleReviews.rating} · ${googleReviews.reviewCount} avis Google`,
+      text: `${rating} · ${reviewCount} avis Google`,
       icon: (
         <svg {...ICON}>
           <path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" />
@@ -82,7 +85,7 @@ function Reassurance() {
   );
 }
 
-export function TrialForm() {
+export function TrialForm(stats: TrialStats) {
   const [form, setForm] = useState({
     firstName: "",
     phone: "",
@@ -181,7 +184,7 @@ export function TrialForm() {
         </p>
       </section>
 
-      <Reassurance />
+      <Reassurance {...stats} />
 
       <section className="pad pt-7 pb-15">
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">

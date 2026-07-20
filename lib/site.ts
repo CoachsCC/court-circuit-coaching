@@ -26,33 +26,8 @@ export const routes = {
   mentionsLegales: "/mentions-legales",
 } as const;
 
-/**
- * Placeholder values. TODO(integration): fetch from the Google Places API
- * (Place Details -> rating, user_ratings_total, reviews) so these stay in sync
- * with the Google Business listing.
- */
-export const googleReviews = {
-  rating: "5,0",
-  reviewCount: 147,
-  members: 250,
-  testimonials: [
-    {
-      quote: "« Jamais tenu aussi longtemps dans une salle. Ici on me pousse sans me juger. »",
-      author: "Julie — adhérente depuis 2 ans",
-      photo: null,
-    },
-    {
-      quote: "« Deux coachs qui connaissent mon prénom et mes objectifs. Ça change tout. »",
-      author: "Karim — adhérent depuis 4 ans",
-      photo: null,
-    },
-    {
-      quote: "« Partie de zéro, sédentaire total. Un an après je fais du cardio boxing. »",
-      author: "Sophie — adhérente depuis 1 an",
-      photo: null,
-    },
-  ],
-} as const;
+/** Chiffre interne au club, sans rapport avec l'API Google. */
+export const CLUB_MEMBERS = 250;
 
 /**
  * Placeholder thumbnails. TODO(integration): replace with the latest posts from

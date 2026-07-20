@@ -1,18 +1,19 @@
 import Link from "next/link";
-import { googleReviews, routes, site } from "@/lib/site";
+import type { ReviewsData } from "@/lib/google-reviews";
+import { routes, site } from "@/lib/site";
 
-export function ProofBand() {
+export function ProofBand({ data, members }: { data: ReviewsData; members: number }) {
   return (
     <>
       <div
         data-integration="google-reviews"
         className="pad flex flex-wrap items-center justify-center gap-[9px] border-b border-white/8 bg-cc-black py-4 text-[13px] font-semibold"
       >
-        <span className="text-cc-orange">★ {googleReviews.rating}</span>
+        <span className="text-cc-orange">★ {data.rating}</span>
         <span className="opacity-50">·</span>
-        <span>{googleReviews.reviewCount} avis Google</span>
+        <span>{data.reviewCount} avis Google</span>
         <span className="opacity-50">·</span>
-        <span>{googleReviews.members} adhérents</span>
+        <span>{members} adhérents</span>
         <span className="opacity-50">·</span>
         <span>Depuis {site.since}</span>
       </div>

@@ -44,6 +44,12 @@ const LEGACY_REDIRECTS: { source: string; destination: string }[] = [
 ];
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      // Photos de profil des auteurs d'avis Google.
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
+    ],
+  },
   async redirects() {
     return LEGACY_REDIRECTS.map(({ source, destination }) => ({
       source,

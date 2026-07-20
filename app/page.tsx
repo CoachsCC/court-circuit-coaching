@@ -13,15 +13,19 @@ import { InstagramFeed } from "@/components/home/InstagramFeed";
 import { PricingPreview } from "@/components/home/PricingPreview";
 import { ProofBand } from "@/components/home/ProofBand";
 import { Reasons } from "@/components/home/Reasons";
+import { getGoogleReviews } from "@/lib/google-reviews";
+import { CLUB_MEMBERS } from "@/lib/site";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const reviews = await getGoogleReviews();
+
   return (
     <div className="wrap">
       <Header />
       <Hero />
-      <ProofBand />
+      <ProofBand data={reviews} members={CLUB_MEMBERS} />
       <Reasons />
-      <GoogleProof />
+      <GoogleProof data={reviews} members={CLUB_MEMBERS} />
       <Courses />
       <HowItWorks />
       <PricingPreview />
