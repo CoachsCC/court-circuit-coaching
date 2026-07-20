@@ -18,10 +18,16 @@ export function GoogleProof({ data, members }: { data: ReviewsData; members: num
     { value: site.since, label: "depuis", accent: false },
   ];
 
+  // Aucun témoignage tant que Google n'en renvoie pas de vrais : la section se
+  // réduit alors aux quatre chiffres, qui eux sont authentiques.
+  const hasReviews = data.reviews.length > 0;
+
   return (
     <section data-integration="google-reviews" className="bg-cc-carbon pt-11 pb-2">
       <div className="pad">
-        <div className="mb-[30px] flex justify-between gap-2 text-center">
+        <div
+          className={`flex justify-between gap-2 text-center ${hasReviews ? "mb-[30px]" : "mb-0 pb-[34px]"}`}
+        >
           {stats.map((stat) => (
             <div key={stat.label} className="flex-1">
               <div
@@ -35,8 +41,9 @@ export function GoogleProof({ data, members }: { data: ReviewsData; members: num
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">
-          {data.reviews.slice(0, 3).map((review, i) => (
+        {hasReviews && (
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">
+            {data.reviews.slice(0, 3).map((review, i) => (
             <div
               key={`${review.author}-${i}`}
               className="flex items-start gap-[13px] rounded-[10px] bg-cc-elevated p-[17px]"
@@ -75,14 +82,14 @@ export function GoogleProof({ data, members }: { data: ReviewsData; members: num
                   {review.publishedAgo && ` — ${review.publishedAgo}`}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+              </div>
+            ))}
+          </div>
+        )}
         {/* Attribution obligatoire dès lors qu'on affiche des avis Google. */}
-        {data.source === "google" && (
+        {hasReviews && (
           <p className="m-0 pt-4 pb-[34px] text-[11px] text-cc-muted">Avis publiés sur Google</p>
         )}
-        {data.source === "fallback" && <div className="pb-[34px]" />}
       </div>
     </section>
   );

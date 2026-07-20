@@ -27,40 +27,20 @@ export type ReviewsData = {
 };
 
 /**
- * Valeurs de secours. Servent tant que l'API n'est pas configurée, et en cas
- * de panne : la page doit rester debout, jamais afficher 0 avis.
- * TODO: à retirer une fois l'intégration en place et éprouvée.
+ * Valeurs de secours pour la note et le total, afin que la page reste debout
+ * si l'API tombe. Elles reflètent l'état réel de la fiche Google au 2026-07-20.
+ *
+ * `reviews` est volontairement vide : les témoignages du fichier de design
+ * (Julie, Karim, Sophie) étaient du texte d'illustration, pas de vrais retours
+ * d'adhérents. Les afficher sous un « ★ 5,0 · 147 avis Google » les ferait
+ * passer pour authentiques. Tant que Google ne renvoie pas de vrais avis, la
+ * section témoignages ne s'affiche pas.
  */
 const FALLBACK: ReviewsData = {
   rating: "5,0",
   reviewCount: 147,
   source: "fallback",
-  reviews: [
-    {
-      quote: "« Jamais tenu aussi longtemps dans une salle. Ici on me pousse sans me juger. »",
-      author: "Julie",
-      photo: null,
-      authorUrl: null,
-      rating: 5,
-      publishedAgo: "adhérente depuis 2 ans",
-    },
-    {
-      quote: "« Deux coachs qui connaissent mon prénom et mes objectifs. Ça change tout. »",
-      author: "Karim",
-      photo: null,
-      authorUrl: null,
-      rating: 5,
-      publishedAgo: "adhérent depuis 4 ans",
-    },
-    {
-      quote: "« Partie de zéro, sédentaire total. Un an après je fais du cardio boxing. »",
-      author: "Sophie",
-      photo: null,
-      authorUrl: null,
-      rating: 5,
-      publishedAgo: "adhérente depuis 1 an",
-    },
-  ],
+  reviews: [],
 };
 
 type PlacesResponse = {
@@ -145,7 +125,7 @@ export async function getGoogleReviews(): Promise<ReviewsData> {
           "Le champ `reviews` relève du SKU Enterprise + Atmosphere : vérifier " +
           "la facturation du projet Google Cloud et les restrictions de la clé.",
       );
-      return { ...stats, reviews: FALLBACK.reviews, source: "partial" };
+      return { ...stats, reviews: [], source: "partial" };
     }
 
     return { ...stats, reviews, source: "google" };
