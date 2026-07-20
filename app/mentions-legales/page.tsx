@@ -10,16 +10,12 @@ export const metadata: Metadata = {
 };
 
 /**
- * Identité de l'éditeur reprise du répertoire SIRENE (SIREN 791 145 428).
+ * Identité de l'éditeur reprise du répertoire SIRENE (SIREN 791 145 428),
+ * RCS, TVA et adresse de l'hébergeur confirmés par le client.
  *
- * Les trois mentions restantes marquées [À COMPLÉTER] sont déduites, pas
- * fournies : le greffe du RCS (Nantes, par ressort géographique), le numéro de
- * TVA (clé calculée depuis le SIREN, mais assujettissement non vérifié) et
- * l'adresse de Vercel. À confirmer sur le Kbis et la page legal de Vercel.
- *
- * Base légale : article 6-III de la LCEN.
+ * Base légale : article 6-III de la LCEN. Toute modification de la forme
+ * juridique, du siège ou de l'hébergeur doit être répercutée ici.
  */
-const TODO = <span className="text-cc-orange">[À COMPLÉTER]</span>;
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -63,8 +59,8 @@ export default function MentionsLegalesPage() {
           <Row label="Siège social">{site.address}</Row>
           <Row label="SIREN">791 145 428</Row>
           <Row label="SIRET (siège)">791 145 428 00029</Row>
-          <Row label="RCS">Nantes 791 145 428 {TODO} (greffe à confirmer)</Row>
-          <Row label="N° TVA intracommunautaire">FR41 791 145 428 {TODO} (à confirmer)</Row>
+          <Row label="RCS">Nantes 791 145 428</Row>
+          <Row label="N° TVA intracommunautaire">FR41 791 145 428</Row>
           <Row label="Code APE">85.51Z — Enseignement de disciplines sportives</Row>
           <Row label="Cogérants">Antoine Martin · Francesco Gervasi</Row>
           <Row label="Directeur de la publication">Francesco Gervasi</Row>
@@ -77,7 +73,7 @@ export default function MentionsLegalesPage() {
         <Section title="Hébergeur">
           <Row label="Société">Vercel Inc.</Row>
           <Row label="Adresse">
-            340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis {TODO} (à vérifier)
+            440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis
           </Row>
           <Row label="Site">vercel.com</Row>
         </Section>
