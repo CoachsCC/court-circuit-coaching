@@ -18,6 +18,19 @@ function VideoBadge() {
 }
 
 /**
+ * Les légendes Instagram sont longues et pleines de retours à la ligne et
+ * d'emojis : lues telles quelles par un lecteur d'écran, elles noient la page.
+ * On garde la première phrase, coupée sur un mot entier.
+ */
+function altFromCaption(caption: string): string {
+  const flat = caption.replace(/\s+/g, " ").trim();
+  if (!flat) return "Publication Instagram de Court-Circuit";
+  if (flat.length <= 90) return flat;
+  const cut = flat.slice(0, 90);
+  return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
+}
+
+/**
  * Grille 3×2 des derniers posts. La section entière disparaît si l'API ne
  * répond pas : mieux vaut pas de section qu'une grille vide ou figée.
  */
@@ -57,13 +70,15 @@ export function InstagramFeed({ posts }: { posts: InstagramPost[] }) {
             rel="noopener"
             className="relative aspect-square overflow-hidden"
           >
+            {/* Pas de `unoptimized` : l'API renvoie les originaux (jusqu'à
+                465 Ko pièce, ~1,8 Mo pour la grille) alors qu'on les affiche
+                en 180px. Next les redimensionne et les sert en WebP. */}
             <Image
               src={post.imageUrl}
-              alt={post.caption ? post.caption.slice(0, 120) : "Publication Instagram"}
+              alt={altFromCaption(post.caption)}
               fill
-              sizes="180px"
+              sizes="(max-width: 560px) 33vw, 180px"
               className="object-cover"
-              unoptimized
             />
             {post.isVideo && <VideoBadge />}
           </a>

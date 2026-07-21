@@ -45,6 +45,10 @@ const LEGACY_REDIRECTS: { source: string; destination: string }[] = [
 
 const nextConfig: NextConfig = {
   images: {
+    // Aligné sur le revalidate d'une heure de lib/instagram.ts : les URLs du CDN
+    // Instagram sont signées, mieux vaut ne pas garder longtemps une version
+    // optimisée dont l'original ne serait plus téléchargeable.
+    minimumCacheTTL: 3_600,
     remotePatterns: [
       // Photos de profil des auteurs d'avis Google.
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
