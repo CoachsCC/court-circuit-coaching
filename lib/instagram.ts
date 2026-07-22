@@ -90,22 +90,39 @@ export async function getInstagramPosts(): Promise<InstagramPost[]> {
 }
 
 /**
- * Prolonge un jeton longue durée de 60 jours. À appeler périodiquement (tâche
- * planifiée mensuelle) : le jeton renvoyé doit remplacer INSTAGRAM_ACCESS_TOKEN,
- * ce qui suppose de le stocker ailleurs qu'en variable d'environnement figée.
+ * Prolonge un jeton longue durée de 60 jours à compter de l'appel.
  *
- * Non branché pour l'instant — documenté ici pour ne pas oublier l'échéance.
+ * ⚠️ Instagram refuse de rafraîchir un jeton de moins de 24 heures : appeler
+ * cette fonction trop souvent renvoie une erreur, pas un nouveau jeton.
+ *
+ * Lève en cas d'échec plutôt que de renvoyer `null` : contrairement à
+ * l'affichage du feed, une expiration silencieuse ici casserait l'intégration
+ * deux mois plus tard, sans lien visible avec la cause.
  */
-export async function refreshInstagramToken(token: string): Promise<string | null> {
-  try {
-    const response = await fetch(
-      `https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${token}`,
-      { cache: "no-store" },
-    );
-    if (!response.ok) return null;
-    const data: { access_token?: string } = await response.json();
-    return data.access_token ?? null;
-  } catch {
-    return null;
+export async function refreshInstagramToken(
+  token: string,
+): Promise<{ token: string; expiresInDays: number }> {
+  const response = await fetch(
+    `https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${token}`,
+    { cache: "no-store" },
+  );
+
+  const body = await response.text();
+
+  if (!response.ok) {
+    // Le corps peut contenir le jeton en clair dans certains messages d'erreur
+    // Meta : ne jamais le propager tel quel dans un log ou une réponse HTTP.
+    throw new Error(`Instagram a refusé le rafraîchissement (HTTP ${response.status}).`);
   }
+
+  const data: { access_token?: string; expires_in?: number } = JSON.parse(body);
+
+  if (!data.access_token) {
+    throw new Error("Réponse Instagram sans `access_token`.");
+  }
+
+  return {
+    token: data.access_token,
+    expiresInDays: Math.round((data.expires_in ?? 0) / 86_400),
+  };
 }
