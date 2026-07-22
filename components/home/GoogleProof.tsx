@@ -11,11 +11,13 @@ function Stars({ rating }: { rating: number }) {
 }
 
 export function GoogleProof({ data, members }: { data: ReviewsData; members: number }) {
+  // Seuls la note et le total viennent de Google : les deux autres chiffres
+  // sont internes au club et ne mènent nulle part.
   const stats = [
-    { value: data.rating, label: "note", accent: true },
-    { value: data.reviewCount, label: "avis", accent: false },
-    { value: members, label: "adhérents", accent: false },
-    { value: site.since, label: "depuis", accent: false },
+    { value: data.rating, label: "note", accent: true, href: data.reviewsUrl },
+    { value: data.reviewCount, label: "avis", accent: false, href: data.reviewsUrl },
+    { value: members, label: "adhérents", accent: false, href: null },
+    { value: site.since, label: "depuis", accent: false, href: null },
   ];
 
   // Aucun témoignage tant que Google n'en renvoie pas de vrais : la section se
@@ -28,18 +30,38 @@ export function GoogleProof({ data, members }: { data: ReviewsData; members: num
         <div
           className={`flex justify-between gap-2 text-center ${hasReviews ? "mb-[30px]" : "mb-0 pb-[34px]"}`}
         >
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex-1">
-              <div
-                className={`num text-[clamp(28px,8vw,38px)] ${stat.accent ? "text-cc-orange" : ""}`}
-              >
-                {stat.value}
+          {stats.map((stat) => {
+            const body = (
+              <>
+                <div
+                  className={`num text-[clamp(28px,8vw,38px)] ${stat.accent ? "text-cc-orange" : ""}`}
+                >
+                  {stat.value}
+                </div>
+                <div className="mt-[3px] text-[10px] tracking-[.12em] text-cc-muted uppercase">
+                  {stat.label}
+                </div>
+              </>
+            );
+
+            return (
+              <div key={stat.label} className="flex-1">
+                {stat.href ? (
+                  <a
+                    href={stat.href}
+                    target="_blank"
+                    rel="noopener"
+                    className="block text-white transition-opacity hover:opacity-75"
+                    aria-label={`${data.rating} sur 5 d'après ${data.reviewCount} avis — voir la fiche Google du club (nouvel onglet)`}
+                  >
+                    {body}
+                  </a>
+                ) : (
+                  body
+                )}
               </div>
-              <div className="mt-[3px] text-[10px] tracking-[.12em] text-cc-muted uppercase">
-                {stat.label}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         {hasReviews && (
           <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">

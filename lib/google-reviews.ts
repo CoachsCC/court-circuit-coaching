@@ -17,6 +17,12 @@ export type ReviewsData = {
   reviewCount: number;
   reviews: Review[];
   /**
+   * Fiche Google publique du club, vers laquelle pointent la note et le total.
+   * `null` si aucun Place ID n'est configuré — on n'affiche alors pas de lien
+   * plutôt que d'en fabriquer un qui tomberait à côté.
+   */
+  reviewsUrl: string | null;
+  /**
    * `google`   — note, total et avis viennent de l'API.
    * `partial`  — note et total réels, mais avis indisponibles (SKU Atmosphere
    *              non provisionné) : on garde les vrais chiffres et on retombe
@@ -41,7 +47,18 @@ const FALLBACK: ReviewsData = {
   reviewCount: 147,
   source: "fallback",
   reviews: [],
+  reviewsUrl: null,
 };
+
+/**
+ * Forme documentée par Google pour ouvrir une fiche à partir de son Place ID.
+ * On s'en tient à celle-ci : les variantes qui ouvrent directement l'onglet des
+ * avis (`search.google.com/local/reviews`) ne sont pas documentées et ont déjà
+ * cessé de fonctionner par le passé.
+ */
+function placeUrl(placeId: string): string {
+  return `https://www.google.com/maps/place/?q=place_id:${encodeURIComponent(placeId)}`;
+}
 
 type PlacesResponse = {
   rating?: number;
@@ -67,8 +84,12 @@ export async function getGoogleReviews(): Promise<ReviewsData> {
   const key = process.env.GOOGLE_PLACES_API_KEY;
   const placeId = process.env.GOOGLE_PLACE_ID;
 
+  // Le lien ne dépend que du Place ID : il reste valable même si l'appel API
+  // échoue et qu'on retombe sur les valeurs statiques.
+  const reviewsUrl = placeId ? placeUrl(placeId) : null;
+
   if (!key || !placeId) {
-    return FALLBACK;
+    return { ...FALLBACK, reviewsUrl };
   }
 
   try {
@@ -90,14 +111,14 @@ export async function getGoogleReviews(): Promise<ReviewsData> {
         `[google-reviews] HTTP ${response.status} — repli sur les valeurs statiques.`,
         await response.text().catch(() => ""),
       );
-      return FALLBACK;
+      return { ...FALLBACK, reviewsUrl };
     }
 
     const data: PlacesResponse = await response.json();
 
     if (typeof data.rating !== "number") {
       console.error("[google-reviews] Réponse sans note — repli complet.", data);
-      return FALLBACK;
+      return { ...FALLBACK, reviewsUrl };
     }
 
     // Note et total sont exploitables même si les avis manquent : ne pas jeter
@@ -131,12 +152,12 @@ export async function getGoogleReviews(): Promise<ReviewsData> {
           "Enterprise + Atmosphere : il s'active dans la facturation du projet " +
           "Google Cloud, pas dans les réglages de la clé.",
       );
-      return { ...stats, reviews: [], source: "partial" };
+      return { ...stats, reviewsUrl, reviews: [], source: "partial" };
     }
 
-    return { ...stats, reviews, source: "google" };
+    return { ...stats, reviewsUrl, reviews, source: "google" };
   } catch (err) {
     console.error("[google-reviews] Appel impossible — repli.", err);
-    return FALLBACK;
+    return { ...FALLBACK, reviewsUrl };
   }
 }

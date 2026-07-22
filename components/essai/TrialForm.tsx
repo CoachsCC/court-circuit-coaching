@@ -5,7 +5,13 @@ import { useState } from "react";
 import { routes, site } from "@/lib/site";
 
 /** Chiffres de réassurance, fournis par le serveur (avis Google + effectif). */
-export type TrialStats = { rating: string; reviewCount: number; members: number };
+export type TrialStats = {
+  rating: string;
+  reviewCount: number;
+  members: number;
+  /** Fiche Google du club ; `null` si aucun Place ID n'est configuré. */
+  reviewsUrl: string | null;
+};
 
 const SLOTS = [
   { value: "Matin", label: "Matin" },
@@ -31,9 +37,10 @@ const ICON = {
   "aria-hidden": true,
 } as const;
 
-function Reassurance({ rating, reviewCount, members }: TrialStats) {
+function Reassurance({ rating, reviewCount, members, reviewsUrl }: TrialStats) {
   const items = [
     {
+      href: null,
       text: `${members} adhérents`,
       icon: (
         <svg {...ICON}>
@@ -45,6 +52,7 @@ function Reassurance({ rating, reviewCount, members }: TrialStats) {
       ),
     },
     {
+      href: reviewsUrl,
       text: `${rating} · ${reviewCount} avis Google`,
       icon: (
         <svg {...ICON}>
@@ -53,6 +61,7 @@ function Reassurance({ rating, reviewCount, members }: TrialStats) {
       ),
     },
     {
+      href: null,
       text: "Aucun engagement",
       icon: (
         <svg {...ICON}>
@@ -61,6 +70,7 @@ function Reassurance({ rating, reviewCount, members }: TrialStats) {
       ),
     },
     {
+      href: null,
       text: "Réponse sous 24 h",
       icon: (
         <svg {...ICON}>
@@ -77,7 +87,19 @@ function Reassurance({ rating, reviewCount, members }: TrialStats) {
         {items.map((item) => (
           <div key={item.text} className="reassure">
             {item.icon}
-            <span className="text-[13px] text-[#e8e8e8]">{item.text}</span>
+            {item.href ? (
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener"
+                className="text-[13px] text-[#e8e8e8] underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-cc-orange"
+                aria-label={`${rating} sur 5 d'après ${reviewCount} avis — voir la fiche Google du club (nouvel onglet)`}
+              >
+                {item.text}
+              </a>
+            ) : (
+              <span className="text-[13px] text-[#e8e8e8]">{item.text}</span>
+            )}
           </div>
         ))}
       </div>

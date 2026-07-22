@@ -20,6 +20,7 @@ export default async function SeanceEssaiPage() {
       <TrialForm
         rating={reviews.rating}
         reviewCount={reviews.reviewCount}
+        reviewsUrl={reviews.reviewsUrl}
         members={CLUB_MEMBERS}
       />
       <Footer minimal />
