@@ -120,10 +120,16 @@ export async function getGoogleReviews(): Promise<ReviewsData> {
       }));
 
     if (!reviews.length) {
+      // Ne pas suggérer de piste réseau ici : l'appel renvoie bien 200, et une
+      // restriction de clé ou de référent produirait un 403, pas un champ
+      // manquant. Google omet simplement `reviews` en silence quand le projet
+      // n'y a pas droit — vérifié avec une fiche témoin très commentée, qui
+      // renvoie elle aussi 0 avis avec cette clé.
       console.warn(
-        "[google-reviews] Note et total récupérés, mais aucun avis renvoyé. " +
-          "Le champ `reviews` relève du SKU Enterprise + Atmosphere : vérifier " +
-          "la facturation du projet Google Cloud et les restrictions de la clé.",
+        "[google-reviews] HTTP 200, note et total récupérés, mais `reviews` " +
+          "absent de la réponse. Ce champ relève du SKU Places Details " +
+          "Enterprise + Atmosphere : il s'active dans la facturation du projet " +
+          "Google Cloud, pas dans les réglages de la clé.",
       );
       return { ...stats, reviews: [], source: "partial" };
     }
