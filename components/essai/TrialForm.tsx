@@ -235,7 +235,7 @@ export function TrialForm(stats: TrialStats) {
           <div className="fld">
             <label htmlFor="email">
               Email{" "}
-              <span className="font-normal text-[#5c5c5c] normal-case">(optionnel)</span>
+              <span className="font-normal text-[#8a9298] normal-case">(optionnel)</span>
             </label>
             <input
               id="email"
@@ -270,7 +270,7 @@ export function TrialForm(stats: TrialStats) {
           <div className="fld">
             <label htmlFor="note">
               Un mot pour nous{" "}
-              <span className="font-normal text-[#5c5c5c] normal-case">(optionnel)</span>
+              <span className="font-normal text-[#8a9298] normal-case">(optionnel)</span>
             </label>
             <textarea
               id="note"
@@ -295,7 +295,7 @@ export function TrialForm(stats: TrialStats) {
           <button type="submit" className="btn-o" disabled={!ready || sending}>
             {sending ? "Envoi en cours…" : "Je réserve ma séance offerte"}
           </button>
-          <p className="m-0 text-center text-[12px] text-[#5c5c5c]">
+          <p className="m-0 text-center text-[12px] text-[#8a9298]">
             On te recontacte rapidement pour fixer ensemble un créneau.
           </p>
         </form>

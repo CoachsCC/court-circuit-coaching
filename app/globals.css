@@ -90,7 +90,9 @@
     font-size: 15px;
     padding: 16px 18px;
     background: var(--color-cc-orange);
-    color: #fff;
+    /* Texte noir plutôt que blanc : #fff sur #f07336 = 2.91:1 (échec WCAG AA),
+       #0d0d0d sur #f07336 = 6.67:1. C'est le CTA principal, répété partout. */
+    color: var(--color-cc-black);
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -99,7 +101,7 @@
 
   .btn-o:hover {
     background: var(--color-cc-orange-700);
-    color: #fff;
+    color: var(--color-cc-black);
   }
 
   .btn-w {
@@ -193,11 +195,15 @@
   .fld textarea:focus {
     outline: none;
     border-color: var(--color-cc-orange);
+    /* Indicateur de focus renforcé : la bordure seule (couleur) est trop ténue
+       et ne suffit pas comme unique signal. */
+    box-shadow: 0 0 0 3px rgba(240, 115, 54, 0.35);
   }
 
   .fld input::placeholder,
   .fld textarea::placeholder {
-    color: #5c5c5c;
+    /* #5c5c5c sur cc-surface = 2.60:1 (échec). #8f8f8f = 5.38:1. */
+    color: #8f8f8f;
   }
 
   .reassure {

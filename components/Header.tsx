@@ -14,10 +14,9 @@ export function Header({ active }: { active?: (typeof NAV)[number]["key"] }) {
       <Link href={routes.home} className="block">
         <Image
           src="/assets/logo-court-circuit-dark.png"
-          alt="Court-Circuit"
+          alt="Court-Circuit — accueil"
           width={140}
           height={30}
-          priority
           className="block h-[30px] w-auto"
         />
       </Link>
@@ -36,7 +35,7 @@ export function Header({ active }: { active?: (typeof NAV)[number]["key"] }) {
         </div>
         <Link
           href={routes.essai}
-          className="btn-o w-auto px-[15px] py-[9px] text-[11px] shadow-none"
+          className="btn-o w-auto px-[15px] py-[13px] text-[11px] shadow-none"
         >
           Essai offert
         </Link>

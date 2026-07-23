@@ -1,5 +1,11 @@
 export const site = {
   name: "Court-Circuit · Coaching Sportif",
+  /**
+   * Domaine de production canonique. Sert de base à `metadataBase`, au sitemap,
+   * au robots et aux données structurées. Hypothèse : le domaine legacy migré
+   * (cf. redirections dans `next.config.ts`). À corriger ICI seul si besoin.
+   */
+  url: "https://www.court-circuit-coaching.fr",
   city: "Saint-Herblain",
   since: 2013,
   address: "22 rue du Moulin de la Rousselière, 44800 Saint-Herblain",

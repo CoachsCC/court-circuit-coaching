@@ -3,9 +3,16 @@ import { CoursePage } from "@/components/course/CoursePage";
 import { CARDIO_BOXING } from "@/lib/courses";
 
 export const metadata: Metadata = {
-  title: "Cardio Boxing à Saint-Herblain · Court-Circuit",
+  title: "Cardio Boxing à Saint-Herblain",
   description:
     "Frappe, cardio et défoulement en 45 min à Saint-Herblain. Encadré, jamais de combat. Première séance offerte, sans engagement.",
+  alternates: { canonical: "/cardio-boxing" },
+  openGraph: {
+    title: "Cardio Boxing à Saint-Herblain · Court-Circuit",
+    description:
+      "Frappe, cardio et défoulement en 45 min à Saint-Herblain. Encadré, jamais de combat.",
+    url: "/cardio-boxing",
+  },
 };
 
 export default function CardioBoxingPage() {

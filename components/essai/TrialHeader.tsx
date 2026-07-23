@@ -16,7 +16,10 @@ export function TrialHeader() {
           className="block h-[30px] w-auto"
         />
       </Link>
-      <a href={`tel:${site.coaches.francesco.phone}`} className="navlink">
+      <a
+        href={`tel:${site.coaches.francesco.phone}`}
+        className="navlink -my-3 flex items-center py-3"
+      >
         {site.coaches.francesco.phoneDisplay}
       </a>
     </header>

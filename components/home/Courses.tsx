@@ -33,7 +33,8 @@ export function Courses() {
             href={course.href}
             className="relative block h-[220px] overflow-hidden rounded-xl"
           >
-            <Image src={course.image} alt={course.title} fill sizes="280px" className="object-cover" />
+            {/* Décorative : le titre du cours est déjà en <h3> dans la carte. */}
+            <Image src={course.image} alt="" fill sizes="280px" className="object-cover" />
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_30%,rgba(13,13,13,.92))]" />
             <div className="pointer-events-none absolute right-0 bottom-0 left-0 p-4">
               <h3 className="h-sec mb-1 text-[23px]">{course.title}</h3>

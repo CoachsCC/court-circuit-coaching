@@ -9,9 +9,16 @@ import { PricingSelector } from "@/components/tarifs/PricingSelector";
 import { Reassurance } from "@/components/tarifs/Reassurance";
 
 export const metadata: Metadata = {
-  title: "Tarifs · Court-Circuit",
+  title: "Tarifs",
   description:
     "Cross training et cardio boxing à Saint-Herblain à partir de 44€/mois. Pas de frais cachés, pas de vente forcée, première séance offerte.",
+  alternates: { canonical: "/tarifs" },
+  openGraph: {
+    title: "Tarifs · Court-Circuit",
+    description:
+      "À partir de 44€/mois à Saint-Herblain. Pas de frais cachés, première séance offerte.",
+    url: "/tarifs",
+  },
 };
 
 export default function TarifsPage() {

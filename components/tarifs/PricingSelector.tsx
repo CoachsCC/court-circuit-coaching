@@ -23,7 +23,7 @@ function PriceCard({
       }`}
     >
       {featured && (
-        <div className="absolute -top-[11px] left-6 rounded-[20px] bg-cc-orange px-[11px] py-1 text-[10px] font-bold tracking-[.12em] text-white uppercase">
+        <div className="absolute -top-[11px] left-6 rounded-[20px] bg-cc-orange px-[11px] py-1 text-[10px] font-bold tracking-[.12em] text-cc-black uppercase">
           ★ Recommandé
         </div>
       )}
@@ -61,8 +61,8 @@ export function PricingSelector() {
                 type="button"
                 onClick={() => setEngIndex(i)}
                 aria-pressed={active}
-                className={`box-border flex-1 cursor-pointer rounded-md border-none px-1.5 py-[11px] font-heading text-[11.5px] font-bold tracking-[.04em] uppercase transition-colors duration-[180ms] ${
-                  active ? "bg-cc-orange text-white" : "bg-transparent text-cc-muted"
+                className={`box-border flex-1 cursor-pointer rounded-md border-none px-1.5 py-[14px] font-heading text-[11.5px] font-bold tracking-[.04em] uppercase transition-colors duration-[180ms] ${
+                  active ? "bg-cc-orange text-cc-black" : "bg-transparent text-cc-muted"
                 }`}
               >
                 {option.label}
