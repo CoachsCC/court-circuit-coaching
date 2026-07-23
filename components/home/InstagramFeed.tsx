@@ -56,7 +56,7 @@ export function InstagramFeed({ posts }: { posts: InstagramPost[] }) {
           href={site.instagram.url}
           target="_blank"
           rel="noopener"
-          className="font-heading text-[11px] font-bold tracking-[.08em] whitespace-nowrap uppercase"
+          className="-my-2 flex items-center py-2 font-heading text-[11px] font-bold tracking-[.08em] whitespace-nowrap uppercase"
         >
           Suivre →
         </a>

@@ -11,9 +11,16 @@ import { Gallery } from "@/components/salle/Gallery";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "La salle · Court-Circuit Saint-Herblain",
+  title: "La salle à Saint-Herblain",
   description:
     "22 rue du Moulin de la Rousselière, Saint-Herblain. Parking gratuit, vestiaires et douches, matériel complet. Une salle à taille humaine depuis 2013.",
+  alternates: { canonical: "/la-salle" },
+  openGraph: {
+    title: "La salle Court-Circuit à Saint-Herblain",
+    description:
+      "Parking gratuit, vestiaires et douches, matériel complet. Une salle à taille humaine depuis 2013.",
+    url: "/la-salle",
+  },
 };
 
 const EQUIPMENT = [

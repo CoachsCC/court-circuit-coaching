@@ -34,7 +34,7 @@ export function PricingPreview() {
             }`}
           >
             {plan.featured && (
-              <div className="absolute -top-2.5 left-5 rounded-[20px] bg-cc-orange px-[9px] py-[3px] text-[9.5px] font-bold tracking-[.12em] text-white uppercase">
+              <div className="absolute -top-2.5 left-5 rounded-[20px] bg-cc-orange px-[9px] py-[3px] text-[9.5px] font-bold tracking-[.12em] text-cc-black uppercase">
                 ★ Recommandé
               </div>
             )}
@@ -53,7 +53,7 @@ export function PricingPreview() {
       </div>
       <Link
         href={routes.tarifs}
-        className="block px-1.5 pt-[18px] pb-1 text-center font-heading text-[12px] font-bold tracking-[.08em] text-cc-orange uppercase"
+        className="block px-1.5 py-3 text-center font-heading text-[12px] font-bold tracking-[.08em] text-cc-orange uppercase"
       >
         Voir tous les tarifs →
       </Link>

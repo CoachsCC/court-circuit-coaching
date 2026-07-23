@@ -4,8 +4,9 @@ import { Header } from "@/components/Header";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Mentions légales · Court-Circuit",
+  title: "Mentions légales",
   description: "Mentions légales du site Court-Circuit · Coaching Sportif, Saint-Herblain.",
+  alternates: { canonical: "/mentions-legales" },
   robots: { index: false, follow: true },
 };
 

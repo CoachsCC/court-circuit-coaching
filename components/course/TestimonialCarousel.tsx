@@ -28,7 +28,10 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
     <section className="pad pt-11 pb-3">
       <SectionHeading eyebrow="Ils en parlent" title="Retours d'adhérents" className="mb-5" />
       <div className="relative">
-        <div className="flex min-h-[180px] flex-col gap-4 rounded-[14px] bg-cc-surface p-[26px]">
+        <div
+          className="flex min-h-[180px] flex-col gap-4 rounded-[14px] bg-cc-surface p-[26px]"
+          aria-live="polite"
+        >
           <div className="h-[50px] w-[50px] overflow-hidden rounded-full bg-white/10">
             {current.photo && (
               <Image
@@ -49,7 +52,7 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
           type="button"
           onClick={() => setIdx(idx - 1)}
           aria-label="Témoignage précédent"
-          className="absolute top-1/2 -left-3.5 flex h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/15 bg-cc-elevated text-white"
+          className="absolute top-1/2 -left-3.5 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/15 bg-cc-elevated text-white"
         >
           <svg {...ARROW}>
             <path d="M15 18l-6-6 6-6" />
@@ -59,25 +62,30 @@ export function TestimonialCarousel({ testimonials }: { testimonials: Testimonia
           type="button"
           onClick={() => setIdx(idx + 1)}
           aria-label="Témoignage suivant"
-          className="absolute top-1/2 -right-3.5 flex h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/15 bg-cc-elevated text-white"
+          className="absolute top-1/2 -right-3.5 flex h-11 w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/15 bg-cc-elevated text-white"
         >
           <svg {...ARROW}>
             <path d="M9 18l6-6-6-6" />
           </svg>
         </button>
       </div>
-      <div className="mt-3.5 flex justify-center gap-1.5">
+      <div className="mt-3.5 flex justify-center">
         {testimonials.map((testimonial, di) => (
+          // Zone tactile ≥24px (WCAG 2.5.8) autour de la puce visuelle de 7px.
           <button
             key={testimonial.author}
             type="button"
             onClick={() => setIdx(di)}
             aria-label={`Témoignage ${di + 1} sur ${n}`}
             aria-current={di === i}
-            className={`h-[7px] cursor-pointer rounded-[4px] border-none p-0 transition-all duration-200 ${
-              di === i ? "w-5 bg-cc-orange" : "w-[7px] bg-white/25"
-            }`}
-          />
+            className="flex h-6 min-w-6 cursor-pointer items-center justify-center border-none bg-transparent p-0"
+          >
+            <span
+              className={`h-[7px] rounded-[4px] transition-all duration-200 ${
+                di === i ? "w-5 bg-cc-orange" : "w-[7px] bg-white/25"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </section>

@@ -24,9 +24,9 @@ export function Footer({ minimal = false }: { minimal?: boolean }) {
           <br />
           {antoine.name} {antoine.phoneDisplay} · {francesco.name} {francesco.phoneDisplay}
         </p>
-        <p className="mt-3.5 text-[11px] text-[#555]">
+        <p className="mt-3.5 text-[11px] text-[#8a9298]">
           © {site.since}–{new Date().getFullYear()} {site.name} ·{" "}
-          <Link href={routes.mentionsLegales} className="text-[#555] hover:text-cc-orange">
+          <Link href={routes.mentionsLegales} className="text-[#8a9298] hover:text-cc-orange">
             Mentions légales
           </Link>
         </p>
@@ -46,11 +46,11 @@ export function Footer({ minimal = false }: { minimal?: boolean }) {
       <div className="mb-[22px] flex flex-wrap gap-[22px]">
         {LINKS.map((link) =>
           link.href.startsWith("#") ? (
-            <a key={link.label} href={link.href} className="navlink">
+            <a key={link.label} href={link.href} className="navlink py-2">
               {link.label}
             </a>
           ) : (
-            <Link key={link.label} href={link.href} className="navlink">
+            <Link key={link.label} href={link.href} className="navlink py-2">
               {link.label}
             </Link>
           ),
@@ -63,9 +63,9 @@ export function Footer({ minimal = false }: { minimal?: boolean }) {
         <br />
         {site.email}
       </p>
-      <p className="mt-3.5 text-[11px] text-[#555]">
+      <p className="mt-3.5 text-[11px] text-[#8a9298]">
         © {site.since}–{new Date().getFullYear()} {site.name} ·{" "}
-        <Link href={routes.mentionsLegales} className="text-[#555] hover:text-cc-orange">
+        <Link href={routes.mentionsLegales} className="text-[#8a9298] hover:text-cc-orange">
           Mentions légales
         </Link>
       </p>

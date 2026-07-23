@@ -38,7 +38,7 @@ export function FinalCta({
         </Link>
         <a
           href={`tel:${francesco.phone}`}
-          className="mt-4 block text-[16px] font-bold text-white hover:text-cc-orange"
+          className="mt-2 block py-2.5 text-[16px] font-bold text-white hover:text-cc-orange"
         >
           Appeler le {francesco.phoneDisplay}
         </a>

@@ -1,8 +1,19 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { bookingEmail, validateBooking } from "@/lib/trial-booking";
 
 export async function POST(request: Request) {
+  // Anti-spam : 5 demandes / 10 min / IP. Une vraie personne n'en envoie qu'une ;
+  // au-delà, on protège la boîte du club et le quota Resend d'un envoi en boucle.
+  const limited = rateLimit(clientIp(request), { limit: 5, windowMs: 10 * 60 * 1000 });
+  if (!limited.ok) {
+    return NextResponse.json(
+      { error: "Trop de demandes. Réessaie dans quelques minutes ou appelle-nous." },
+      { status: 429, headers: { "Retry-After": String(limited.retryAfter) } },
+    );
+  }
+
   let payload: unknown;
   try {
     payload = await request.json();

@@ -4,8 +4,11 @@ import { site } from "@/lib/site";
 
 function Stars({ rating }: { rating: number }) {
   return (
-    <div className="mb-1 text-[12px] text-cc-orange" aria-label={`${rating} sur 5`}>
-      {"★".repeat(Math.round(rating))}
+    <div className="mb-1 text-[12px] text-cc-orange">
+      {/* Les ★ sont décoratifs (un lecteur d'écran lirait « étoile étoile… ») ;
+          la note est exposée en texte via une classe sr-only. */}
+      <span aria-hidden="true">{"★".repeat(Math.round(rating))}</span>
+      <span className="sr-only">{rating} sur 5</span>
     </div>
   );
 }

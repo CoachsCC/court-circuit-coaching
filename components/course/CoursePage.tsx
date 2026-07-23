@@ -107,7 +107,9 @@ export function CoursePage({ course }: { course: Course }) {
           <div className="rounded-xl border border-white/10 bg-cc-surface p-5">
             <div className="mb-3.5 flex items-center gap-2">
               <CrossIcon />
-              <span className="text-[13px] font-bold tracking-[.06em] text-cc-danger uppercase">
+              {/* Rouge éclairci pour le texte (cc-danger #ff0000 = 4.35:1, échec) ;
+                  l'icône garde le rouge vif, elle passe le seuil 3:1. */}
+              <span className="text-[13px] font-bold tracking-[.06em] text-[#ff5c5c] uppercase">
                 Pas pour toi si
               </span>
             </div>
